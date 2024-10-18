@@ -1,4 +1,8 @@
+require('dotenv').config();
 const express = require('express')
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+const saltRounds = 3;
 const mysql = require('mysql2')
 const path = require('path')
 const validator = require('validator'); // Import the validator library
@@ -18,6 +22,12 @@ const db = mysql.createConnection({
     }
     console.log('Connected to MySQL database');
   });
+
+  app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true
+  }));
 
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')));
@@ -130,6 +140,31 @@ app.get('/admin', (req, res) => {
         console.log('Conference booking added to the database');
         return res.render('index', { alert: 'Conference reservation was successful. Thank you!' });
       }
+    });
+  });
+
+
+  app.get('/admin-login', (req, res) => {
+    res.render('admin-login');
+  });
+
+  app.post('/admin-login', async (req, res) => {
+    const { email, password } = req.body;
+    
+    if (email === process.env.ADMIN_EMAIL && await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH)) {
+      req.session.isAdmin = true;
+      res.redirect('/dashboard');
+    } else {
+      res.render('admin-login', { error: 'Invalid credentials' });
+    }
+  });
+
+  app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+      if (err) {
+        console.error('Error destroying session:', err);
+      }
+      res.redirect('/admin-login');
     });
   });
 

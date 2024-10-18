@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Savannah Vintage Lounge</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: "Open Sans", sans-serif;
+            background: #0c0b09;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .login-container {
+            background-color: #1a1814;
+            border-radius: 5px;
+            padding: 30px;
+        }
+        .login-title {
+            font-family: "Playfair Display", serif;
+            color: #cda45e;
+            margin-bottom: 30px;
+        }
+        .form-control {
+            background-color: #0c0b09;
+            border-color: #625b4b;
+            color: #fff;
+        }
+        .form-control:focus {
+            background-color: #1a1814;
+            border-color: #cda45e;
+            color: #fff;
+            box-shadow: none;
+        }
+        .btn-primary {
+            background-color: #cda45e;
+            border-color: #cda45e;
+        }
+        .btn-primary:hover {
+            background-color: #d3b876;
+            border-color: #d3b876;
+        }
+        .alert-danger {
+            background-color: #8a2d2d;
+            border-color: #8a2d2d;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 login-container">
+                <h2 class="text-center login-title">Admin Login</h2>
+                <% if (locals.error) { %>
+                    <div class="alert alert-danger"><%= error %></div>
+                <% } %>
+                <form action="/admin-login" method="post">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
