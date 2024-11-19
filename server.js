@@ -9,14 +9,18 @@ const validator = require('validator'); // Import the validator library
 
 const app = express()
 const PORT = process.env.PORT || 4400
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'savannahloungebookings',
-  });
+const db = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'savannahloungebookings',
+  waitForConnections: true,
+  connectionLimit: 10, // Adjust as needed
+  queueLimit: 0
+});
+
   
-  db.connect((err) => {
+  db.query((err) => {
     if (err) {
       throw err;
     }
